@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <title>{{ username }} | Home</title>
+    <style>
+        .form-row {
+            padding: 10px 0;
+        }
+        body {
+            background: black;
+        }
+        * {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container m-3">
+        <div class="row">
+            <div class="col-3 offset-4">
+                <b style="font-size: 30px;">Welcome {{ username }}!</b>
+            </div>
+            <div class="col-3 offset-2">
+                <form action="http://localhost:5000/logout" method="POST">
+                    <button type="submit" class="btn btn-outline-secondary">Log Out</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container m-3">
+        <div class="row">
+            <div class="col-6 offset-4 border border-dark border-2">
+                <form method="POST" action="http://localhost:5000/addTracker">
+                        <legend>Add New Product</legend>
+                        <div class="form-group row form-row">
+                            <label for="link" class="col-md-2 col-form-label">Link</label>
+                            <div class="offset-md-1 col-md-9">
+                              <input type="text" class="form-control" id="link" name="link" placeholder="Link for the Product"> 
+                            </div> 
+                        </div>
+                        <div class="form-group row form-row">
+                          <label for="email" class="col-md-2 col-form-label">Email</label>
+                          <div class="offset-md-1 col-md-9">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email to be Notified"> 
+                          </div>
+                        </div>
+                        <div class="form-group row form-row">
+                            <div class="offset-3 col">
+                               <button type="submit" class="btn btn-outline-success">Add Tracker</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+        <div class="row m-3">
+            <div class="col-4 offset-5">
+                <h3 class="text-center">
+                    {% if tracks.count() > 0 %}
+                        - - - Your Tracks - - -
+                    {% else %}
+                        - - Your Tracks appear here - -
+                    {% endif %}
+                </h3>
+            </div>
+        </div>
+        {% for t in tracks %}
+            <div class="row m-3">
+                <div class="col-6 offset-4">
+                    <div class="container border border-2">
+                        <div class="row form-row">
+                            <div class="col-4">Name</div>
+                            <div class="col">{{ t['name'] }}</div>
+                        </div>
+                        <div class="row form-row">
+                            <div class="col-4">Price</div>
+                            <div class="col">&#8377; {{ t['price'] }}</div>
+                        </div>
+                        <div class="row form-row">
+                            <div class="col-3 offset-2">
+                                <a class="btn btn-outline-light" href="{{ t['link'] }}" target="_blank">View Product</a>
+                            </div>
+                            <div class="col-3 offset-2">
+                                <form action="http://localhost:5000/deleteTracker" method="POST">
+                                    <input type="text" value="{{ t['_id'] }}" name="productId" hidden>
+                                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
