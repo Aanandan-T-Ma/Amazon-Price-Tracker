@@ -1,4 +1,4 @@
-import scrap
+import scrap, creds
 import pymongo
 import smtplib
 
@@ -15,7 +15,7 @@ def sendMail(toMail, link):
     server.ehlo()
     server.starttls()
     server.ehlo()
-    server.login(fromMail, 'hlpkpvsdabhcwgtp')
+    server.login(fromMail, creds.password)
 
     subject = 'Amazon Prices Came Down!'
     body = f'Check out the link {link}'
