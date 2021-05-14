@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import pymongo
 from cryptography.fernet import Fernet
-from pymongo import message
 import scrap
 from bson.objectid import ObjectId
 
